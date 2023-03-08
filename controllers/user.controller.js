@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-exports.createUser = (req, res, next) => {
+exports.createUser = (req, res) => {
   User.find({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -89,7 +89,57 @@ exports.userLogin = (req, res) => {
     });
 };
 
-exports.deleteUser = (req, res, next) => {
+exports.fetchSingleUserById = (req, res) => {
+  User.findOne({ _id: req.params.userId })
+    .exec()
+    .then((doc) => {
+      console.log("From database:", doc);
+      if (doc) {
+        res.status(200).json({
+          message: "User fetched successfully",
+          fetchedUser: {
+            _id: req.params.userId,
+            username: doc.username,
+            email: doc.email,
+            password: doc.password
+          },
+        });
+      } else {
+        res
+          .status(401)
+          .json({ message: "No valid entry found for provided ID" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+};
+
+exports.fetchAllUsers = (req, res) => {
+  User.find()
+    .select("_id username email")
+    .exec()
+    .then((docs) => {
+      const response = {
+        count: docs.length,
+        "List of registered users": docs.map((doc) => {
+            return {
+            _id: doc._id,
+            username: req.body.username,
+            email: req.body.email
+          };
+        }),
+      };
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+};
+
+exports.deleteUser = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.userId,
   })

@@ -9,7 +9,13 @@ router.post("/signup", userController.createUser);
 // User login and jwt validation
 router.post("/login", userController.userLogin);
 
+// fetch all users
+router.get("/", userController.fetchAllUsers)
+
+// fetch a single user
+router.get("/:userId", userController.fetchSingleUserById )
+
 // delete a user
-router.delete("/:userId", checkAuth, userController.deleteUser)
+router.delete("/:userId", userController.deleteUser)
 
 module.exports = router;
