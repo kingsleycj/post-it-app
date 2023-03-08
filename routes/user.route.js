@@ -6,4 +6,7 @@ const userController = require("../controllers/user.controller");
 // create a new user
 router.post("/signup", userController.createUser);
 
+// User login and jwt validation
+router.post("/login", userController.userLogin);
+
 module.exports = router;
