@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+// create a new user controller
 exports.createUser = (req, res) => {
   User.find({ email: req.body.email })
     .exec()
@@ -44,7 +45,7 @@ exports.createUser = (req, res) => {
     });
 };
 
-
+// user login controller
 exports.userLogin = (req, res) => {
   User.find({ email: req.body.email })
     .exec()
@@ -89,6 +90,7 @@ exports.userLogin = (req, res) => {
     });
 };
 
+// fetch single user controller
 exports.fetchSingleUserById = (req, res) => {
   User.findOne({ _id: req.params.userId })
     .exec()
@@ -116,29 +118,17 @@ exports.fetchSingleUserById = (req, res) => {
     });
 };
 
-exports.fetchAllUsers = (req, res) => {
-  User.find()
-    .select("_id username email")
-    .exec()
-    .then((docs) => {
-      const response = {
-        count: docs.length,
-        "List of registered users": docs.map((doc) => {
-            return {
-            _id: doc._id,
-            username: req.body.username,
-            email: req.body.email
-          };
-        }),
-      };
-      res.status(200).json(response);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: err });
-    });
+// fetch all users controller
+exports.fetchAllUsers = async (req, res) => {
+  try {
+    const user = await User.find().select("_id username email");
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };
 
+// delete user controller
 exports.deleteUser = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.userId,
@@ -154,6 +144,33 @@ exports.deleteUser = (req, res) => {
       console.log(err);
       res.status(500).json({
         error: err,
+      });
+    });
+};
+
+// edit User controller
+exports.editUserById = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Data to update can not be empty!",
+    });
+  }
+
+  const id = req.params.userId;
+
+  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `User not found.`,
+        });
+      } else {
+        res.send({ message: "User updated successfully." });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
       });
     });
 };
