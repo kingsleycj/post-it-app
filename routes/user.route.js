@@ -15,6 +15,9 @@ router.get("/", userController.fetchAllUsers)
 // fetch a single user
 router.get("/:userId", userController.fetchSingleUserById )
 
+// edit user
+router.put("/:userId", userController.editUserById)
+
 // delete a user
 router.delete("/:userId", userController.deleteUser)
 
