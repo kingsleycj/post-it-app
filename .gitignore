@@ -105,5 +105,3 @@ dist
 
 # package-lock
 package-lock.json
-
-middlewares/validator.js
