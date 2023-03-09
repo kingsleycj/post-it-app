@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 const userRoutes = require("./routes/user.route")
+const postRoutes = require("./routes/post.route");
 
 const app = express();
 app.use(express.json());
@@ -11,7 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use("/users", userRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/posts", postRoutes);
 
 const port = process.env.PORT || 5000;
 
