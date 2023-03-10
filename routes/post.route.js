@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post.controller");
 const commentRoute = require("./comment.route");
-const postRoute = require("./post.route");
 
 router.use(commentRoute)
 
