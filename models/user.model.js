@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
+    avatar: {
+        type: String
+    },
     username: {
       type: String,
       required: true,
@@ -11,9 +14,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: true,
-      required: true,
-      match:
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      required: true
     },
     password: { type: String, required: true, min: 5 },
     deleted: {
