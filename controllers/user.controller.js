@@ -47,15 +47,15 @@ exports.createUser = (req, res) => {
 
 // user login controller
 exports.userLogin = (req, res) => {
-  User.find({ email: req.body.email })
+  User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
-      if (user < 1) {
+      if (!user) {
         return res.status(401).json({
           message: "Authentication Failed",
         });
       }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
           return res.status(401).json({
             message: "Authentication Failed",
@@ -64,17 +64,17 @@ exports.userLogin = (req, res) => {
         if (result) {
           const token = jwt.sign(
             {
-              email: user[0].email,
-              userId: user[0]._id,
+              userId: user._id,
             },
             process.env.JWT_KEY,
             {
-              expiresIn: "1h",
+              expiresIn: "10h",
             }
           );
           return res.status(200).json({
             message: "Authentication Successful",
             token: token,
+            userDetails: user,
           });
         }
         return res.status(401).json({
@@ -92,7 +92,7 @@ exports.userLogin = (req, res) => {
 
 // fetch single user controller
 exports.fetchSingleUserById = (req, res) => {
-  User.findOne({ _id: req.params.userId })
+  User.findOne({ _id: req.params.userId, deleted: false })
     .exec()
     .then((doc) => {
       console.log("From database:", doc);
@@ -103,7 +103,7 @@ exports.fetchSingleUserById = (req, res) => {
             _id: req.params.userId,
             username: doc.username,
             email: doc.email,
-            password: doc.password
+            password: doc.password,
           },
         });
       } else {
@@ -121,7 +121,9 @@ exports.fetchSingleUserById = (req, res) => {
 // fetch all users controller
 exports.fetchAllUsers = async (req, res) => {
   try {
-    const user = await User.find().select("_id username email");
+    const user = await User.find({ deleted: false }).select(
+      "_id username email"
+    );
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -130,9 +132,11 @@ exports.fetchAllUsers = async (req, res) => {
 
 // delete user controller
 exports.deleteUser = (req, res) => {
-  User.findOneAndDelete({
-    _id: req.params.userId,
-  })
+  User.findOneAndUpdate(
+    { _id: req.params.postId },
+    { deleted: true },
+    { new: true }
+  )
     .exec()
     .then((result) => {
       console.log(result);
