@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
 const Post = require("../models/post.model");
 
 // Create a new post
 exports.createPost = async (req, res) => {
-  const { username, content, comment } = req.body;
+  const { author, content } = req.body;
   try {
     const post = await Post.create({
-      username,
+      author,
       content,
     });
     res.status(201).json(post);
@@ -19,7 +18,7 @@ exports.createPost = async (req, res) => {
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("username", "content");
+    const posts = await Post.find({deleted: false}).populate({ path: "author", select: "username" });
     res.status(200).json(posts);
   } catch (err) {
     console.error(err);
@@ -30,10 +29,11 @@ exports.getAllPosts = async (req, res) => {
 // Get a post by ID
 exports.getPostById = async (req, res) => {
   try {
-    const post = await Post.findOne({ id: req.params.postId }).populate(
-      "username",
-      "content"
-    );
+    const post = await Post.findOne({
+      id: req.params.postId,
+      deleted: false,
+    })
+    .populate({ path: "author", select: "username" });
     if (!post) {
       return res.status(404).json({ error: "Post-it not found" });
     }
@@ -53,7 +53,7 @@ exports.updatePostById = async (req, res) => {
       {
         new: true,
       }
-    ).populate("username", "content");
+    ).populate("author", "content");
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
@@ -67,7 +67,7 @@ exports.updatePostById = async (req, res) => {
 // Delete a post by ID
 exports.deletePostById = async (req, res) => {
   try {
-    const post = await Post.findOneAndDelete({ id: req.params.postId });
+    const post = await Post.findOneAndUpdate({ _id: req.params.postId }, { deleted: true}, {new: true});
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }

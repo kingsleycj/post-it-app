@@ -2,7 +2,7 @@
   "name": "post-it-app",
   "version": "1.0.0",
   "description": "A Simple Social Media Node App Called Post-It",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
