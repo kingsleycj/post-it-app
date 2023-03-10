@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 
 // catch 404 and forward to error handler
 app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
+  res.status(404).json({ message: "An error occurred" });
 });
 
 app.listen(port, () => {

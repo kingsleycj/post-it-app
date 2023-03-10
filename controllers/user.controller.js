@@ -2,13 +2,14 @@ const mongoose = require("mongoose");
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const generateRandomAvatar = require("../utils/avatar");
 
 // create a new user controller
 exports.createUser = (req, res) => {
-  User.find({ email: req.body.email })
+    User.findOne({ email: req.body.email })
     .exec()
-    .then((user) => {
-      if (user.length >= 1) {
+    .then((existingUser) => {
+      if (existingUser) {
         return res.status(409).json({
           message: "Email already exists",
         });
@@ -21,6 +22,7 @@ exports.createUser = (req, res) => {
           } else {
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
+              avatar: generateRandomAvatar(req.body.email),
               username: req.body.username,
               email: req.body.email,
               password: hash,
@@ -101,9 +103,9 @@ exports.fetchSingleUserById = (req, res) => {
           message: "User fetched successfully",
           fetchedUser: {
             _id: req.params.userId,
+            avatar: doc.avatar,
             username: doc.username,
-            email: doc.email,
-            password: doc.password,
+            email: doc.email
           },
         });
       } else {
@@ -122,7 +124,7 @@ exports.fetchSingleUserById = (req, res) => {
 exports.fetchAllUsers = async (req, res) => {
   try {
     const user = await User.find({ deleted: false }).select(
-      "_id username email"
+      "_id avatar username email"
     );
     res.status(200).json(user);
   } catch (error) {
