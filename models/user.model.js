@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema(
     avatar: {
         type: String
     },
+    imgTag: {
+      type: String
+    },
     username: {
       type: String,
       required: true,
