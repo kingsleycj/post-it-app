@@ -101,7 +101,7 @@ exports.fetchSingleUserById = (req, res) => {
     .then((doc) => {
       console.log("From database:", doc);
       if (doc) {
-        const imgTag = `<img src="${doc.avatar}" alt="${email}\'s avatar">`;
+        const imgTag = `<img src="${doc.avatar}" alt="${doc.email}\'s avatar">`;
         res.status(200).json({
           message: "User fetched successfully",
           fetchedUser: {
