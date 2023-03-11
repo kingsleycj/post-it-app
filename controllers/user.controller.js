@@ -3,10 +3,11 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const generateRandomAvatar = require("../utils/avatar");
+const avatarUrl = require("../utils/imgTag");
 
 // create a new user controller
 exports.createUser = (req, res) => {
-    User.findOne({ email: req.body.email })
+  User.findOne({ email: req.body.email })
     .exec()
     .then((existingUser) => {
       if (existingUser) {
@@ -94,18 +95,21 @@ exports.userLogin = (req, res) => {
 
 // fetch single user controller
 exports.fetchSingleUserById = (req, res) => {
+  const { email } = req.body;
   User.findOne({ _id: req.params.userId, deleted: false })
     .exec()
     .then((doc) => {
       console.log("From database:", doc);
       if (doc) {
+        const imgTag = `<img src="${doc.avatar}" alt="${email}\'s avatar">`;
         res.status(200).json({
           message: "User fetched successfully",
           fetchedUser: {
             _id: req.params.userId,
+            imgTag: imgTag,
             avatar: doc.avatar,
             username: doc.username,
-            email: doc.email
+            email: doc.email,
           },
         });
       } else {
