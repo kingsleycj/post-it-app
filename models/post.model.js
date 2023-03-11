@@ -11,6 +11,8 @@ const postSchema = new Schema(
     content: {
       type: String,
       required: true,
+      min: 1,
+      max: 280,
     },
     deleted: {
       type: Boolean,
