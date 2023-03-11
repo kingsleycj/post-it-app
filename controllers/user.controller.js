@@ -3,7 +3,6 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const generateRandomAvatar = require("../utils/avatar");
-const avatarUrl = require("../utils/imgTag");
 
 // create a new user controller
 exports.createUser = (req, res) => {
@@ -141,7 +140,7 @@ exports.fetchAllUsers = async (req, res) => {
 // delete user controller
 exports.deleteUser = (req, res) => {
   User.findOneAndUpdate(
-    { _id: req.params.postId },
+    { _id: req.params.userId },
     { deleted: true },
     { new: true }
   )
