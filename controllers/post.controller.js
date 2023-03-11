@@ -3,6 +3,7 @@ const Post = require("../models/post.model");
 // Create a new post
 exports.createPost = async (req, res) => {
   const { author, content } = req.body;
+  console.log(author)
   try {
     const post = await Post.create({
       author,
@@ -18,7 +19,9 @@ exports.createPost = async (req, res) => {
 // Get all posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find({deleted: false}).populate({ path: "author", select: "username" });
+    const posts = await Post.find({author: req.params.userId, deleted: false})
+    .populate({ path: "author", select: "username" })
+    .sort({createdAt : - 1})
     res.status(200).json(posts);
   } catch (err) {
     console.error(err);
@@ -30,7 +33,7 @@ exports.getAllPosts = async (req, res) => {
 exports.getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({
-      id: req.params.postId,
+      id: req.params.postId, author: req.params.userId,
       deleted: false,
     })
     .populate({ path: "author", select: "username" });
@@ -39,7 +42,7 @@ exports.getPostById = async (req, res) => {
     }
     res.status(200).json(post);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ error: "An error occurred while fetching post-it" });
   }
 };
@@ -66,16 +69,21 @@ exports.updatePostById = async (req, res) => {
 
 // Delete a post by ID
 exports.deletePostById = async (req, res) => {
-  try {
-    const post = await Post.findOneAndUpdate({ _id: req.params.postId }, { deleted: true}, {new: true});
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-    res.status(200).json({
-        message: "Post deleted successfully"
+try {
+  await Post.findOneAndUpdate(
+    { _id: req.params.postId, author: req.params.userId },
+    { deleted: true },
+    { new: true }
+  )
+    .exec()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json({
+        message: "Post deleted successfully",
+      });
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "An error occurred when deleting post-it" });
-  }
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ error: "An error occurred while deleting post" });
+}
 };

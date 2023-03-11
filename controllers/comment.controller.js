@@ -34,7 +34,7 @@ exports.getCommentById = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(204).json(comment);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Comment could not be fetched" });
@@ -53,7 +53,7 @@ exports.updateCommentById = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(204).json(comment);
+    res.status(200).json(comment);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "An error occurred while updating comment" });
@@ -64,7 +64,7 @@ exports.updateCommentById = async (req, res) => {
 exports.deleteCommentById = async (req, res) => {
   try {
     await Comment.findOneAndUpdate(
-      { _id: req.params.postId },
+      { _id: req.params.commentId },
       { deleted: true },
       { new: true }
     )
@@ -77,6 +77,6 @@ exports.deleteCommentById = async (req, res) => {
       });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "An error occured while deleting comment" });
+    res.status(500).json({ error: "An error occurred while deleting comment" });
   }
 };
