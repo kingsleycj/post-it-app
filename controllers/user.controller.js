@@ -7,6 +7,7 @@ const avatarUrl = require("../utils/imgTag");
 
 // create a new user controller
 exports.createUser = (req, res) => {
+const avatarUrl = generateRandomAvatar(req.body.email);
   User.findOne({ email: req.body.email })
     .exec()
     .then((existingUser) => {
@@ -21,9 +22,11 @@ exports.createUser = (req, res) => {
               error: err,
             });
           } else {
+            const imgTag = `<img src="${avatarUrl}" alt="${req.body.email}\'s avatar">`;
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               avatar: generateRandomAvatar(req.body.email),
+              imgTag: imgTag,
               username: req.body.username,
               email: req.body.email,
               password: hash,
@@ -95,7 +98,6 @@ exports.userLogin = (req, res) => {
 
 // fetch single user controller
 exports.fetchSingleUserById = (req, res) => {
-  const { email } = req.body;
   User.findOne({ _id: req.params.userId, deleted: false })
     .exec()
     .then((doc) => {
@@ -128,7 +130,7 @@ exports.fetchSingleUserById = (req, res) => {
 exports.fetchAllUsers = async (req, res) => {
   try {
     const user = await User.find({ deleted: false }).select(
-      "_id avatar username email"
+      "_id avatar imgTag username email"
     );
     res.status(200).json(user);
   } catch (error) {
