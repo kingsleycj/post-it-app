@@ -168,9 +168,7 @@ exports.editUserById = (req, res) => {
       message: "Data to update can not be empty!",
     });
   }
-
   const id = req.params.userId;
-
   User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
@@ -188,25 +186,9 @@ exports.editUserById = (req, res) => {
     });
 };
 
-// exports.fetchUserUsingHandle = async (req, res) => {
-//   try {
-//     const user = await User.findOne({ username: req.params.username });
-//     if (typeof user !== 'string' || user.length !== 24) {
-//       return res.json(user);
-//     }
-//     return res.status(404).json({ message: "User not found" });
-//   } catch (err) {
-//     console.log(err);
-//     return res
-//       .status(500)
-//       .json({ message: "Error occurred while fetching user" });
-//   }
-// };
-
-
+// fetching User By Handle
 exports.fetchUserUsingHandle = (req, res) => {
-  const { username } = req.body;
-  User.findOne({ username, deleted: false })
+  User.findOne({ username: req.params.username, deleted: false })
     .exec()
     .then((doc) => {
       console.log("From database:", doc);

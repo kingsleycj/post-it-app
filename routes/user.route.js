@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
 const validateSignUp = require("../middlewares/validator")
+// const checkAuth = require("../middlewares/checkAuth")
 
 // create a new user
 router.post("/signup", validateSignUp, userController.createUser);
@@ -12,11 +13,11 @@ router.post("/login", userController.userLogin);
 // fetch all users
 router.get("/", userController.fetchAllUsers)
 
-// fetch a single user by Id
-router.get("/:userId", userController.fetchSingleUserById )
-
 // fetch a user by handle
 router.get("/@:username", userController.fetchUserUsingHandle);
+
+// fetch a single user by Id
+router.get("/:userId", userController.fetchSingleUserById )
 
 // edit user 
 router.put("/:userId", userController.editUserById)
