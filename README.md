@@ -6,7 +6,7 @@
 
 - [x] Users can signup and login to their accounts.
 - [x] Users can access all causes as well as create a new cause, edit their created cause and also delete what they've created.
-- [x] Other users cannot delete posts and comments made by another user.
+- [x] A user cannot delete posts and comments made by another user.
 - [x] Soft delete was implemented on all resources; when resources are deleted, its still stored on the database collection but it ceases to be returned if fetched.
 - [x] All Avatar requirements were satisfied.
 

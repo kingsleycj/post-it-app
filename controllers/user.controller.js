@@ -6,7 +6,7 @@ const generateRandomAvatar = require("../utils/avatar");
 
 // create a new user controller
 exports.createUser = (req, res) => {
-const avatarUrl = generateRandomAvatar(req.body.email);
+  const avatarUrl = generateRandomAvatar(req.body.email);
   User.findOne({ email: req.body.email })
     .exec()
     .then((existingUser) => {
@@ -121,7 +121,9 @@ exports.fetchSingleUserById = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ error: err });
+      res
+        .status(500)
+        .json({ message: "Error occurred while fetching user", error: err });
     });
 };
 
@@ -182,6 +184,55 @@ exports.editUserById = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message,
+      });
+    });
+};
+
+// exports.fetchUserUsingHandle = async (req, res) => {
+//   try {
+//     const user = await User.findOne({ username: req.params.username });
+//     if (typeof user !== 'string' || user.length !== 24) {
+//       return res.json(user);
+//     }
+//     return res.status(404).json({ message: "User not found" });
+//   } catch (err) {
+//     console.log(err);
+//     return res
+//       .status(500)
+//       .json({ message: "Error occurred while fetching user" });
+//   }
+// };
+
+
+exports.fetchUserUsingHandle = (req, res) => {
+  const { username } = req.body;
+  User.findOne({ username, deleted: false })
+    .exec()
+    .then((doc) => {
+      console.log("From database:", doc);
+      if (doc) {
+        const imgTag = `<img src="${doc.avatar}" alt="${doc.username}\'s avatar">`;
+        res.status(200).json({
+          message: "User fetched successfully",
+          fetchedUser: {
+            _id: req.params.userId,
+            imgTag: imgTag,
+            avatar: doc.avatar,
+            username: doc.username,
+            email: doc.email,
+          },
+        });
+      } else {
+        res
+          .status(401)
+          .json({ message: "No valid entry found for provided username" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        message: "Error occurred while fetching user",
+        error: err,
       });
     });
 };

@@ -12,10 +12,13 @@ router.post("/login", userController.userLogin);
 // fetch all users
 router.get("/", userController.fetchAllUsers)
 
-// fetch a single user
+// fetch a single user by Id
 router.get("/:userId", userController.fetchSingleUserById )
 
-// edit user
+// fetch a user by handle
+router.get("/@:username", userController.fetchUserUsingHandle);
+
+// edit user 
 router.put("/:userId", userController.editUserById)
 
 // delete a user
