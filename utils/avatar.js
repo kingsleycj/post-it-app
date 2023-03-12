@@ -28,7 +28,7 @@ const avatarStyles = [
 ];
 
 const getRandomAvatarStyle = () => {
-  const randomIndex = Math.floor(Math.random() * avatarStyles.length - 1);
+  const randomIndex = Math.floor(Math.random() * avatarStyles.length);
   const randomStyle = avatarStyles[randomIndex];
   return randomStyle;
 };

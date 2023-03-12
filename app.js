@@ -20,7 +20,7 @@ const connectToMongoDB = () => {
   mongoose.set("strictQuery", true);
   mongoose
     .connect(process.env.MONGO_DB_ATLAS, {
-      dbName: "hotel-management",
+      dbName: "Post-it-app",
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
