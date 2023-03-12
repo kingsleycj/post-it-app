@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
 
-const postSchema = new Schema(
+const postSchema = new mongoose.Schema(
   {
     author: {
-      type: Schema.Types.ObjectId ,
+      type: Schema.Types.Mixed,
       ref: "User",
       required: true,
     },
@@ -16,7 +16,7 @@ const postSchema = new Schema(
     },
     deleted: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   {
