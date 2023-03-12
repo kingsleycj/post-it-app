@@ -159,6 +159,7 @@ exports.deleteUser = (req, res) => {
         error: err,
       });
     });
+    res.status(401).json({ message: "No valid entry found for provided ID" });
 };
 
 // edit User controller

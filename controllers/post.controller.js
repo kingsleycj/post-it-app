@@ -16,7 +16,7 @@ exports.createPost = async (req, res) => {
   }
 };
 
-// Get all posts
+// Get all posts by ID
 exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find({author: req.params.userId, deleted: false})
@@ -45,7 +45,7 @@ exports.getAllPostsFromAHandle = async (req, res) => {
 exports.getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({
-      id: req.params.postId, author: req.params.userId,
+      _id: req.params.postId, author: req.params.userId,
       deleted: false,
     })
     .populate({ path: "author", select: "username" });
@@ -63,7 +63,7 @@ exports.getPostById = async (req, res) => {
 exports.updatePostById = async (req, res) => {
   try {
     const post = await Post.findOneAndUpdate(
-      { id: req.params.postId },
+      { _id: req.params.postId },
       req.body,
       {
         new: true,
