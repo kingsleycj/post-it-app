@@ -10,13 +10,13 @@
 - [x] Soft delete was implemented on all resources; when resources are deleted, its still stored on the database collection but it ceases to be returned if fetched.
 - [x] All Avatar requirements were satisfied.
 
-### Entity Relationship Diagram And Live Link
+### Links
 
-> 🔗   [Entity Relationship Diagram Link](https://dbdesigner.page.link/14Twuq7fN25yGjNP6)
+ * [Entity Relationship Diagram Link](https://dbdesigner.page.link/14Twuq7fN25yGjNP6)
 
-> 🔗    [Live Link]()
-
-### API Documentation
+  * [Post-It API Live Link](https://justpostit-2v8i.onrender.com/api/v1/)
+ 
+ * [API Documentation](https://documenter.getpostman.com/view/14719733/2s93JtRPPM)
 
 ### Installation Guide
 
