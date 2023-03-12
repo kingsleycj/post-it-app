@@ -12,11 +12,11 @@
 
 ### Links
 
- * [Entity Relationship Diagram Link](https://dbdesigner.page.link/14Twuq7fN25yGjNP6)
+- [Entity Relationship Diagram Link](https://dbdesigner.page.link/14Twuq7fN25yGjNP6)
 
-  * [Post-It API Live Link](https://justpostit-2v8i.onrender.com/api/v1/)
- 
- * [API Documentation](https://documenter.getpostman.com/view/14719733/2s93JtRPPM)
+- [API Documentation](https://justpostit-2v8i.onrender.com/api/v1/docs)
+
+- [Post-It API Live Link](https://justpostit-2v8i.onrender.com/api/v1/)
 
 ### Installation Guide
 
@@ -81,4 +81,5 @@
 ```
 
 ### Author
+
  [Kingsley CJ](https://github.com/kingsleycj)
