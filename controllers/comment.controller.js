@@ -6,7 +6,10 @@ exports.createComment = async (req, res) => {
   try {
     const comment = new Comment({ author, postId, content });
     await comment.save();
-    res.status(201).json(comment);
+    res.status(201).json({
+      message: "comment created successfully",
+      comment: comment
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Comment could not be created" });
@@ -34,7 +37,10 @@ exports.getCommentById = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(200).json(comment);
+    res.status(200).json({
+      message: "comment fetched successfully",
+      comment: comment,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Comment could not be fetched" });
@@ -53,7 +59,10 @@ exports.updateCommentById = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(200).json(comment);
+    res.status(200).json({
+      message: "comment updated successfully",
+      comment: comment,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "An error occurred while updating comment" });
