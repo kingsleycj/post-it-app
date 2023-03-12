@@ -8,7 +8,7 @@ exports.createComment = async (req, res) => {
     await comment.save();
     res.status(201).json(comment);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Comment could not be created" });
   }
 };
@@ -19,7 +19,7 @@ exports.getAllComments = async (req, res) => {
     const comments = await Comment.find({ deleted: false });
     res.status(200).json(comments);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Comments could not be fetched" });
   }
 };
@@ -36,7 +36,7 @@ exports.getCommentById = async (req, res) => {
     }
     res.status(200).json(comment);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "Comment could not be fetched" });
   }
 };
@@ -55,7 +55,7 @@ exports.updateCommentById = async (req, res) => {
     }
     res.status(200).json(comment);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "An error occurred while updating comment" });
   }
 };
@@ -76,7 +76,7 @@ exports.deleteCommentById = async (req, res) => {
         });
       });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: "An error occurred while deleting comment" });
   }
 };

@@ -11,7 +11,7 @@ exports.createPost = async (req, res) => {
     });
     res.status(201).json(post);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ error: "Error occurred while creating post-its" });
   }
 };
@@ -24,7 +24,19 @@ exports.getAllPosts = async (req, res) => {
     .sort({createdAt : - 1})
     res.status(200).json(posts);
   } catch (err) {
-    console.error(err);
+    console.log(err);
+    res.status(500).json({ error: "Error occurred while fetching posts-its" });
+  }
+};
+
+// get all posts from a handle
+exports.getAllPostsFromAHandle = async (req, res) => {
+  try {
+    const posts = await Post.find({ author: req.params.username, deleted: false })
+      .sort({ createdAt: -1 });
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: "Error occurred while fetching posts-its" });
   }
 };
@@ -62,7 +74,7 @@ exports.updatePostById = async (req, res) => {
     }
     res.status(200).json(post);
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ error: "Error occurred while updating post-it" });
   }
 };
@@ -83,7 +95,7 @@ try {
       });
     });
 } catch (error) {
-  console.error(error);
+  console.log(error);
   res.status(500).json({ error: "An error occurred while deleting post" });
 }
 };
