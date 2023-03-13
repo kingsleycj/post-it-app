@@ -1,6 +1,5 @@
 const greeting = `<html lang="en">
   <head>
-    <title>post-it</title>
     <style>
       body {
         background-color: #f0f0f0;
