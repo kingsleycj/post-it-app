@@ -31,7 +31,7 @@ const greeting = `<html lang="en">
     <div class="mid">
       <h1>Hi! Welcome to my Post-it API!</h1>
       <p>
-        <a href="https://documenter.getpostman.com/view/14719733/2s93JtRPPM"
+        <a href="https://justpostit-2v8i.onrender.com/api/v1/docs"
           >Click to view API Documentation</a
         >
       </p>

@@ -68,7 +68,7 @@
 ├── routes
 │   ├── auth.route.js
 │   ├── comment.route.js
-│   ├── index.js
+│   ├── server.route.js
 │   ├── post.route.js
 │   ├── user.route.js
 ├── utils
@@ -80,6 +80,15 @@
 ├── package.json
 └── README.md
 ```
+
+### Explanations
+
+* Soft delete was implemented by setting the `delete` default property of each resources to `false`, and only converting them to `true` after it has been updated through the **DELETE** endpoint.
+
+* I used the mongoose method of `.findOneAndUpdate()` on the **DELETE** endpoints to update the `deleted` property on each resource.
+
+* As previously stated above, the _deleted resources_ are not returned because their properties have been changed to `true`. However, they're still stored on the linked MONGODB database.
+
 
 ### Author
 
