@@ -29,7 +29,7 @@ const greeting = `<html lang="en">
   </head>
   <body>
     <div class="mid">
-      <h1>Hi! Welcome to my Post-it API!</h1>
+      <h1>Hi! Welcome to my Post-it API</h1>
       <p>
         <a href="https://justpostit-2v8i.onrender.com/api/v1/docs"
           >Click to view API Documentation</a
