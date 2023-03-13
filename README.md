@@ -1,4 +1,6 @@
-<h1 align="center">Post-It App : Introduction</h1>
+<h1 align="center">Post-It App</h1>
+
+## Introduction
 
 Post-It is a social media app that allows you to post anything (text, images, video, and/or audio) on a single post-it. A post-it is a single post on the post-it app, just like a tweet. Other users can reply to a post-it. Replying to a post-it is like adding a comment to a post (post-it). Although currently, this app will only accept texts as replies.
 
