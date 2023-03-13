@@ -1,6 +1,6 @@
 # Post-It App : Introduction
 
- Post-It is a social media app that allows you to post anything (text, images, video, and/or audio) on a single post-it.  A post-it is a single post on the post-it app, just like a tweet. Other users can reply to a post-it. Replying to a post-it is like adding a comment to a post (post-it). Although currently, this app will only accept texts as replies.
+Post-It is a social media app that allows you to post anything (text, images, video, and/or audio) on a single post-it. A post-it is a single post on the post-it app, just like a tweet. Other users can reply to a post-it. Replying to a post-it is like adding a comment to a post (post-it). Although currently, this app will only accept texts as replies.
 
 ## Project Requirements Satisfied
 
@@ -9,6 +9,18 @@
 - [x] A user cannot delete posts and comments made by another user.
 - [x] Soft delete was implemented on all resources; when resources are deleted, its still stored on the database collection but it ceases to be returned if fetched.
 - [x] All Avatar requirements were satisfied.
+
+```json
+{
+    "message": "User fetched successfully",
+    "fetchedUser": {
+        "imgTag": "<img src=\"https://api.dicebear.com/5.x/bottts/svg?seed=james-g5xm5-gmail-z3orx-com&size=200&radius=50\" alt=\"james's avatar\">",
+        "avatar": "https://api.dicebear.com/5.x/bottts/svg?seed=james-g5xm5-gmail-z3orx-com&size=200&radius=50",
+        "username": "james",
+        "email": "james@gmail.com"
+    }
+}
+```
 
 ### Links
 
@@ -50,7 +62,7 @@
 
 ## App Architecture and Folder Structure
 
- A clean architecture was implemented during the process of building this app.
+A clean architecture was implemented during the process of building this app.
 
 ### Folder Structure
 
@@ -83,13 +95,37 @@
 
 ### Explanations
 
-* Soft delete was implemented by setting the `delete` default property of each resources to `false`, and only converting them to `true` after it has been updated through the **DELETE** endpoint.
+- Soft delete was implemented by setting the `delete` default property of each resources to `false`, and only converting them to `true` after it has been updated through the **DELETE** endpoint.
 
-* I used the mongoose method of `.findOneAndUpdate()` on the **DELETE** endpoints to update the `deleted` property on each resource.
+```js
+{
+    deleted: {
+      type: Boolean,
+      default: false,
+    }
+}
+```
 
-* As previously stated above, the _deleted resources_ are not returned because their properties have been changed to `true`. However, they're still stored on the linked MONGODB database.
+- I used the mongoose method of `.findOneAndUpdate()` on the **DELETE** endpoints to update the `deleted` property on each resource.
 
+```js
+{
+    await Resource.findOneAndUpdate(
+        { _id: req.params.commentId },
+        { deleted: true },
+        { new: true }
+    )
+}
+```
+
+- As previously stated above, the _deleted resources_ are not returned because their properties have been changed to `true`. However, they're still stored on the linked MONGODB database.
+
+### Avatar API
+
+Dicebear API was used for the generation of avatars.
+
+![avatar image](https://api.dicebear.com/5.x/avataaars/svg?seed=king-g5xm5-gmail-z3orx-com&size=200&radius=50)
 
 ### Author
 
- [Kingsley CJ](https://github.com/kingsleycj)
+[Kingsley CJ](https://github.com/kingsleycj)
