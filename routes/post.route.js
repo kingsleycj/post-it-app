@@ -3,6 +3,7 @@ const router = express.Router();
 const postController = require("../controllers/post.controller");
 const commentRoute = require("./comment.route");
 
+// Linking the posts route to comment route
 router.use(commentRoute)
 
 // create a new post from a particular username

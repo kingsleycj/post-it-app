@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
-const serverRoute = require("./routes/index")
+const serverRoute = require("./routes/server.route")
 const cookieParser = require("cookie-parser")
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// Routes
+// Routing
 app.use("/api/v1", serverRoute);
 
 // port
